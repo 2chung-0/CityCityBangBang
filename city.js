@@ -10,7 +10,6 @@ let smoothingFactor = 0.25;
 let gridX = 10;
 let gridZ = 15;
 let touchDistance;
-let didTouch = false;
 let pauseV = false;
 let touchTime = 0;
 let tmp_element_row = 0;
