@@ -50,7 +50,7 @@ function setup(){
     frameRate(60);
     createCanvas(windowWidth, windowHeight, WEBGL);
     colorMode(HSB, 360, 100, 100);
-    
+
     gridZ = int(width/20);
 
     //Make 2d array, create random Xvalue
@@ -67,10 +67,16 @@ function setup(){
     hardBtn = createButton('HARD');
     startBtn = createButton('START');
     backBtn = createButton('TRY AGAIN');
+    resetBtn.hide();
+    pauseBtn.hide();
+    backBtn.hide();
+    easyBtn.hide();
+    hardBtn.hide();
+    startBtn.hide();
 }
 
 function windowResized() {
-    resizeCanvas(windowWidth, windowHeight);
+    resizeCanvas(windowWidth, windowHeight, WEBGL);
     gridZ = int(width/20);
     for (let i = 0; i < gridZ; i++) {
       map[i] = [];
@@ -86,28 +92,16 @@ function draw(){
 
   switch(scene){
     case -1:
+
+
+
       if (width > height){
         image(bg_img, -width/2, -height/2, width*1.1, width);
-        push();
-        textFont(fontL);
-        textSize(40);
-        fill(255);
-        textAlign(CENTER,CENTER);
-        text("City City Bang Bang", 0, -80 );
-        pop();
+
       } else {
         image(bg_img, -width/2, -height/2, height, height*1.1);
-        push();
-        textFont(fontL);
-        textSize(40);
-        fill(255);
-        textAlign(CENTER,CENTER);
-        text("City City Bang Bang", 0, -80 );
-        pop();
+
       }
-
-
-
       easyBtn.show();
       hardBtn.show();
       startBtn.show();
@@ -166,7 +160,7 @@ function draw(){
       sumX += (userX - sumX) * smoothingFactor;
       
       push();
-      translate(sumX+mouseX-width/2,+800,mapZ+bikeZ);
+      translate(sumX+mouseX-width/2,500,mapZ+bikeZ);
       rotateX(PI);
       noStroke();
       rotateY(PI/2+PI);
@@ -188,8 +182,8 @@ function draw(){
           push();
           noStroke();
           rotateX(PI);
-          translate(map[i][j]*i-width*2,-800,-mapZ+j*1000+5000);
-          //1000 is low, map [i][j] is column, -width, -800 is make low view
+          translate(map[i][j]*i-width*2,-500,-mapZ+j*1000+5000);
+          //1000 is low, map [i][j] is column, -width, -500 is make low view
           touchDistance = dist(map[i][j]*i-width*2,0,-mapZ+j*1000+5000,sumX+mouseX-width/2,0,mapZ+bikeZ);
           if (touchDistance < 150 && tmp_element_height != i && tmp_element_row != j) {
             touchTime++;
@@ -211,8 +205,8 @@ function draw(){
           push();
           noStroke();
           rotateX(PI);
-          translate(map[i][j]*i-width*2,-800,-mapZ+j*1000+15000);
-          //1000 is low, map [i][j] is column, -width, -800 is make low view
+          translate(map[i][j]*i-width*2,-500,-mapZ+j*1000+15000);
+          //1000 is low, map [i][j] is column, -width, -500 is make low view
           touchDistance = dist(map[i][j]*i-width*2,0,-mapZ+j*1000+15000,sumX+mouseX-width/2,0,mapZ+bikeZ);
           if (touchDistance < 150 && tmp_element_height != i && tmp_element_row != j) {
             touchTime++;
@@ -234,8 +228,8 @@ function draw(){
           push();
           noStroke();
           rotateX(PI);
-          translate(map[i][j]*i-width*2,-800,-mapZ+j*1000+25000);
-          //1000 is low, map [i][j] is column, -width, -800 is make low view
+          translate(map[i][j]*i-width*2,-500,-mapZ+j*1000+25000);
+          //1000 is low, map [i][j] is column, -width, -500 is make low view
           touchDistance = dist(map[i][j]*i-width*2,0,-mapZ+j*1000+25000,sumX+mouseX-width/2,0,mapZ+bikeZ);
           if (touchDistance < 150 && tmp_element_height != i && tmp_element_row != j) {
             touchTime++;
@@ -257,8 +251,8 @@ function draw(){
           push();
           noStroke();
           rotateX(PI);
-          translate(map[i][j]*i-width*2,-800,-mapZ+j*1000+35000);
-          //1000 is low, map [i][j] is column, -width, -800 is make low view
+          translate(map[i][j]*i-width*2,-500,-mapZ+j*1000+35000);
+          //1000 is low, map [i][j] is column, -width, -500 is make low view
           touchDistance = dist(map[i][j]*i-width*2,0,-mapZ+j*1000+35000,sumX+mouseX-width/2,0,mapZ+bikeZ);
           if (touchDistance < 150 && tmp_element_height != i && tmp_element_row != j) {
             touchTime++;
@@ -276,7 +270,7 @@ function draw(){
     }
       // heart
       push();
-      translate(0,-500,0);
+      translate(0,-600,-200);
       noStroke();
       if (isMouseClicked){
         ambientLight(100);
@@ -294,19 +288,19 @@ function draw(){
       noStroke();
       fill(255);
       rotateX(PI);
-      translate(0,-800,-mapZ+2000);
+      translate(0,-500,-mapZ+2000);
       specularMaterial(318,83,94);
       model(city);
       pop();
 
       //moon
       push(); 
-      translate(0,0,-8000);
+      translate(0,+700,-8000);
       smooth();
-      ambientLight(50);
+      ambientLight(80);
       pointLight(62,66,92, 0,-2000,-14000);
       ambientMaterial(318,83,100);
-      ellipse(0, 0, 4800, 4800, 50);
+      ellipse(0, 0, 5500, 5500, 50);
       pop();
 
       //ground
@@ -318,7 +312,7 @@ function draw(){
       rotateZ(PI/2);
       ambientLight(0);
       ambientMaterial(318,83,100);
-      translate(0,0,-800);
+      translate(0,0,-500);
       plane(100000,50000);
       pop();
 
