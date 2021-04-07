@@ -44,6 +44,8 @@ function preload(){
     fontB = loadFont('./assets/robotoBlack.ttf');
     fontL = loadFont('./assets/robotoLight.ttf');
     bg_img = loadImage('./assets/bg.png');
+    mySound = loadSound('./assets/CityPop.mp3');
+    beep = loadSound('./assets/beep.mp3');
 }
 
 function setup(){
@@ -93,8 +95,6 @@ function draw(){
   switch(scene){
     case -1:
 
-
-
       if (width > height){
         image(bg_img, -width/2, -height/2, width*1.1, width);
 
@@ -120,6 +120,11 @@ function draw(){
       break;
     
     case 0:
+      
+    if (mySound.isPlaying() == false && mouseIsPressed && pauseV == false) {
+        mySound.loop();
+      }
+
       resetBtn.show();
       pauseBtn.show();
 
@@ -187,6 +192,7 @@ function draw(){
           touchDistance = dist(map[i][j]*i-width*2,0,-mapZ+j*1000+5000,sumX+mouseX-width/2,0,mapZ+bikeZ);
           if (touchDistance < 150 && tmp_element_height != i && tmp_element_row != j) {
             touchTime++;
+            beep.play();
             touch = true;
             tmp_element_height = i;
             tmp_element_row = j;
@@ -210,6 +216,7 @@ function draw(){
           touchDistance = dist(map[i][j]*i-width*2,0,-mapZ+j*1000+15000,sumX+mouseX-width/2,0,mapZ+bikeZ);
           if (touchDistance < 150 && tmp_element_height != i && tmp_element_row != j) {
             touchTime++;
+            beep.play();
             touch = true;
             tmp_element_height = i;
             tmp_element_row = j;
@@ -233,6 +240,7 @@ function draw(){
           touchDistance = dist(map[i][j]*i-width*2,0,-mapZ+j*1000+25000,sumX+mouseX-width/2,0,mapZ+bikeZ);
           if (touchDistance < 150 && tmp_element_height != i && tmp_element_row != j) {
             touchTime++;
+            beep.play();
             touch = true;
             tmp_element_height = i;
             tmp_element_row = j;
@@ -256,12 +264,13 @@ function draw(){
           touchDistance = dist(map[i][j]*i-width*2,0,-mapZ+j*1000+35000,sumX+mouseX-width/2,0,mapZ+bikeZ);
           if (touchDistance < 150 && tmp_element_height != i && tmp_element_row != j) {
             touchTime++;
+            beep.play();
             touch = true;
             tmp_element_height = i;
             tmp_element_row = j;
           } else {
             specularMaterial(318,83,94);
-            city_type = int(map(map[i][j],0,1000,0,15));
+            citㅇy_type = int(map(map[i][j],0,1000,0,15));
             decideCity(city_type);
           }
           pop();
@@ -270,7 +279,8 @@ function draw(){
     }
       // heart
       push();
-      translate(0,-600,-200);
+      translate(0,-600,-2000);
+      scale(3);
       noStroke();
       if (isMouseClicked){
         ambientLight(100);
@@ -295,7 +305,12 @@ function draw(){
 
       //moon
       push(); 
-      translate(0,+700,-8000);
+      if (width > 1980){
+        translate(0,+700,-8000);
+      } else {
+        translate(0,+700,-5000);
+      }
+      
       smooth();
       ambientLight(80);
       pointLight(62,66,92, 0,-2000,-14000);
@@ -319,7 +334,7 @@ function draw(){
       //score & life
       push();
       textFont(fontB);
-      textSize(40);
+      textSize(height/35);
       fill(255);
       text("Your Score is " + mapZ, -width/2+30, -height/2+60);
       text("Heart " + heart_score, -width/2+30, -height/2+120);
@@ -402,9 +417,11 @@ function draw(){
     function pause() { 
       if (pauseV == false){
         pauseV = true;
+        mySound.pause();
       } else {
         pauseV = false;
         heart_score--;
+        mySound.loop();
       }
       
     }
